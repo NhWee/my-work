@@ -13,6 +13,12 @@ pip install -r requirements.txt
 python src\root_example.py
 ```
 
+Plot a branch from a ROOT file:
+
+```powershell
+python src\plot_root.py results\example.root
+```
+
 Included packages:
 
 - `uproot`: read and write ROOT files without a full CERN ROOT installation
@@ -34,3 +40,10 @@ python -c "import ROOT; print(ROOT.gROOT.GetVersion())"
 
 Native Windows builds are possible but are more fragile because they require a
 matching compiler and build toolchain.
+
+## Practice Data Sources
+
+- Start with generated toy data from `src/root_example.py`.
+- Use CERN Open Data when you want real particle-physics ROOT files.
+- Prefer smaller education/outreach examples first; full CMS AOD files are large
+  and need experiment-specific software knowledge.
