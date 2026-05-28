@@ -8,3 +8,4 @@
 - Added starter Python and Jupyter examples.
 - Added ROOT-file analysis support with `uproot`, `awkward`, and `hist`.
 - Added ROOT setup notes for Windows and full CERN ROOT via WSL/conda.
+- Added a ROOT file inspection script.
