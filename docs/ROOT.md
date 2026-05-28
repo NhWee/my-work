@@ -81,3 +81,25 @@ Plot real CMS branches from the remote file:
 
 .\.venv\Scripts\python.exe src\plot_root.py "http://opendata.cern.ch/eos/opendata/cms/derived-data/NanoAODRun1/01-Jul-22/Run2010A_Mu/0E1203D1-AEA1-4ED6-B1FF-1F2F72FEE6D9.root" --tree Events --branch Muon_pt --output results\cms_muon_pt_hist.png --bins 50
 ```
+
+## CMS Jet Data
+
+For jet studies, use CMS JetHT NanoAOD records. A small first file in the
+Run2016G JetHT record is suitable for quick remote tests:
+
+- Portal record: https://opendata.cern.ch/record/30525
+- Dataset: `/JetHT/Run2016G-UL2016_MiniAODv2_NanoAODv9-v1/NANOAOD`
+- Example file:
+  `http://opendata.cern.ch/eos/opendata/cms/Run2016G/JetHT/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/CD205112-3009-AB40-ACE1-9C3C31285B4A.root`
+
+Inspect only jet-related branches:
+
+```powershell
+.\.venv\Scripts\python.exe src\inspect_root.py "http://opendata.cern.ch/eos/opendata/cms/Run2016G/JetHT/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/CD205112-3009-AB40-ACE1-9C3C31285B4A.root" --tree Events --branches nJet Jet_pt Jet_eta --limit 3
+```
+
+Plot all AK4 jet transverse momenta:
+
+```powershell
+.\.venv\Scripts\python.exe src\plot_root.py "http://opendata.cern.ch/eos/opendata/cms/Run2016G/JetHT/NANOAOD/UL2016_MiniAODv2_NanoAODv9-v1/130000/CD205112-3009-AB40-ACE1-9C3C31285B4A.root" --tree Events --branch Jet_pt --output results\cms_jet_pt_hist.png --bins 80
+```

@@ -11,3 +11,4 @@
 - Added a ROOT file inspection script.
 - Added a ROOT branch plotting script.
 - Added CMS Open Data remote-file workflow and plotting commands.
+- Added CMS JetHT Open Data example and jet plotting command.
