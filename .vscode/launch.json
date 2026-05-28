@@ -1,9 +1,10 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
       "name": "Run src/main.py",
-      "type": "debugpy",
+      "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}\\src\\main.py",
       "console": "integratedTerminal",
