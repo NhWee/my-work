@@ -10,3 +10,4 @@
 - Added ROOT setup notes for Windows and full CERN ROOT via WSL/conda.
 - Added a ROOT file inspection script.
 - Added a ROOT branch plotting script.
+- Added CMS Open Data remote-file workflow and plotting commands.

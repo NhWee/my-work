@@ -27,8 +27,12 @@ def print_tree_preview(tree: uproot.behaviors.TTree.TTree, limit: int) -> None:
         print(f"    {index}: {row}")
 
 
-def inspect_root_file(path: Path, limit: int) -> None:
-    if not path.exists():
+def is_url(path: str) -> bool:
+    return path.startswith(("http://", "https://", "root://"))
+
+
+def inspect_root_file(path: str, limit: int) -> None:
+    if not is_url(path) and not Path(path).exists():
         raise FileNotFoundError(f"ROOT file not found: {path}")
 
     with uproot.open(path) as root_file:
@@ -52,7 +56,7 @@ def inspect_root_file(path: Path, limit: int) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Inspect a ROOT file.")
-    parser.add_argument("path", type=Path, help="Path to a .root file")
+    parser.add_argument("path", help="Path or URL to a .root file")
     parser.add_argument(
         "--limit",
         type=int,

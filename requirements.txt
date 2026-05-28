@@ -5,3 +5,5 @@ ipykernel
 uproot
 awkward
 hist
+cernopendata-client
+aiohttp
