@@ -11,6 +11,8 @@ data/*
 results/*
 !results/.gitkeep
 
+CMSSW_*/
+
 .env
 .env.*
 !.env.example

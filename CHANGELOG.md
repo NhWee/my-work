@@ -12,3 +12,4 @@
 - Added a ROOT branch plotting script.
 - Added CMS Open Data remote-file workflow and plotting commands.
 - Added CMS JetHT Open Data example and jet plotting command.
+- Added CMS environment setup notes for WSL2, Docker Desktop, and CMSSW.
