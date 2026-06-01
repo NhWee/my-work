@@ -149,7 +149,61 @@ echo $CMSSW_BASE
 
 If `cmsRun` is available, the CMS runtime is ready.
 
-## 6. Common pitfall
+## 6. Verify CMSSW in the container
+
+Expected checks inside the container:
+
+```bash
+which cmsRun
+echo $CMSSW_BASE
+scramv1 runtime -sh
+```
+
+For this workspace, a successful setup looked like:
+
+```text
+/opt/cms/slc5_amd64_gcc434/cms/cmssw/CMSSW_4_4_7/bin/slc5_amd64_gcc434/cmsRun
+/work/CMSSW_4_4_7
+```
+
+## 7. HIHighPt PbPb Data Starting Point
+
+For first jet-quenching-oriented checks, start with CMS 2011 PbPb HIHighPt:
+
+- Portal record: https://opendata.cern.ch/record/14013
+- Dataset: `/HIHighPt/HIRun2011-15Apr2013-v1/RECO`
+- Collision system: PbPb at 2.76 TeV
+- Recommended release: `CMSSW_4_4_7`
+- Recommended global tag: `GR_R_44_V15::All`
+- Dataset size: 648 files, about 1.5 TiB total
+
+List remote file locations from Windows PowerShell:
+
+```powershell
+$env:PYTHONUTF8='1'
+.\.venv\Scripts\cernopendata-client.exe get-file-locations --recid 14013 --protocol xrootd
+```
+
+First XRootD file found during setup:
+
+```text
+root://eospublic.cern.ch//eos/opendata/cms/hidata/HIRun2011/HIHighPt/RECO/15Apr2013-v1/10000/0056B4D7-E8A5-E211-935E-003048F316C4.root
+```
+
+The files are large, usually several GB each, so prefer remote access first.
+
+Important triggers listed for this dataset include:
+
+```text
+HLT_HIDiJet55
+HLT_HIJet55
+HLT_HIJet65
+HLT_HIJet65_Jet55
+HLT_HIJet80
+HLT_HIJet95
+```
+
+## 8. Common pitfall
 
 Do not run CMS work from the `docker-desktop` WSL distro. Its prompt looks like:
 
@@ -169,7 +223,7 @@ The expected Ubuntu prompt looks similar to:
 uno@hnoh:/mnt/c/Users/Administrator/Documents/my-work/my-work$
 ```
 
-## 7. Repository setup on a new machine
+## 9. Repository setup on a new machine
 
 After cloning this repository:
 

@@ -13,3 +13,4 @@
 - Added CMS Open Data remote-file workflow and plotting commands.
 - Added CMS JetHT Open Data example and jet plotting command.
 - Added CMS environment setup notes for WSL2, Docker Desktop, and CMSSW.
+- Recorded successful CMSSW container checks and the HIHighPt PbPb starting record.
