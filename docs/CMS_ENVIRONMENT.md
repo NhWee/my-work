@@ -230,6 +230,62 @@ An initial `cmsRun` inspection config is stored at:
 cms/inspect_hihighpt_cfg.py
 ```
 
+## 8. First Mini Analyzer
+
+The first CMSSW analyzer is stored in:
+
+```text
+cms/HiJetAnalysis/JetAnalyzer/plugins/HiJetAnalyzer.cc
+```
+
+It reads:
+
+```text
+vector<reco::PFJet> "ak5PFJets" "" "ppRECO"
+```
+
+and writes a compact output tree with:
+
+```text
+run, lumi, event, nJet,
+lead_pt, lead_eta, lead_phi,
+sublead_pt, sublead_eta, sublead_phi,
+dphi, aj
+```
+
+Install and build the analyzer inside the CMS container:
+
+```bash
+cd /work
+bash cms/install_hijet_analyzer.sh
+```
+
+Run the first one-event test:
+
+```bash
+cd /work
+bash cms/run_hijet_analyzer.sh
+```
+
+Output:
+
+```text
+results/hihighpt_jets.root
+```
+
+The first successful test read one remote HIHighPt event:
+
+```text
+run=181969
+lumi=91
+event=1180008
+nJet=2
+lead_pt=55.019
+sublead_pt=31.783
+dphi=3.082
+aj=0.268
+```
+
 Important triggers listed for this dataset include:
 
 ```text
@@ -241,7 +297,7 @@ HLT_HIJet80
 HLT_HIJet95
 ```
 
-## 8. Common pitfall
+## 9. Common pitfall
 
 Do not run CMS work from the `docker-desktop` WSL distro. Its prompt looks like:
 
@@ -261,7 +317,7 @@ The expected Ubuntu prompt looks similar to:
 uno@hnoh:/mnt/c/Users/Administrator/Documents/my-work/my-work$
 ```
 
-## 9. Repository setup on a new machine
+## 10. Repository setup on a new machine
 
 After cloning this repository:
 
