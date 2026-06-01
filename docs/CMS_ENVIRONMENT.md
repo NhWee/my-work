@@ -192,6 +192,37 @@ root://eospublic.cern.ch//eos/opendata/cms/hidata/HIRun2011/HIHighPt/RECO/15Apr2
 
 The files are large, usually several GB each, so prefer remote access first.
 
+`edmFileUtil -d` may segfault in this old CMSSW/container combination. Use
+`edmDumpEventContent` for the first access check instead:
+
+```bash
+edmDumpEventContent root://eospublic.cern.ch//eos/opendata/cms/hidata/HIRun2011/HIHighPt/RECO/15Apr2013-v1/10000/0056B4D7-E8A5-E211-935E-003048F316C4.root
+```
+
+To focus on jet-quenching-relevant products:
+
+```bash
+edmDumpEventContent root://eospublic.cern.ch//eos/opendata/cms/hidata/HIRun2011/HIHighPt/RECO/15Apr2013-v1/10000/0056B4D7-E8A5-E211-935E-003048F316C4.root | grep -E 'Centrality|ak.*Jet|TriggerResults|hiEvtPlane'
+```
+
+Useful products seen in the first file include:
+
+```text
+reco::Centrality                      "hiCentrality"      ""           "RECO"
+vector<reco::EvtPlane>                "hiEvtPlane"        "recoLevel"  "RECO"
+edm::TriggerResults                   "TriggerResults"    ""           "HLT"
+vector<reco::CaloJet>                 "ak5CaloJets"       ""           "ppRECO"
+vector<reco::PFJet>                   "ak5PFJets"         ""           "ppRECO"
+vector<reco::CaloJet>                 "ak7CaloJets"       ""           "ppRECO"
+vector<reco::PFJet>                   "ak7PFJets"         ""           "ppRECO"
+```
+
+An initial `cmsRun` inspection config is stored at:
+
+```text
+cms/inspect_hihighpt_cfg.py
+```
+
 Important triggers listed for this dataset include:
 
 ```text
