@@ -1,10 +1,15 @@
+import os
+
 import FWCore.ParameterSet.Config as cms
+
+
+max_events = int(os.environ.get("MAX_EVENTS", "10"))
 
 
 process = cms.Process("HIJET")
 
 process.maxEvents = cms.untracked.PSet(
-    input=cms.untracked.int32(1),
+    input=cms.untracked.int32(max_events),
 )
 
 process.source = cms.Source(

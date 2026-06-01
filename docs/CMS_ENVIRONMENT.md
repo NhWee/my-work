@@ -260,17 +260,37 @@ cd /work
 bash cms/install_hijet_analyzer.sh
 ```
 
-Run the first one-event test:
+Run the analyzer. The optional number controls `maxEvents`:
 
 ```bash
 cd /work
-bash cms/run_hijet_analyzer.sh
+bash cms/run_hijet_analyzer.sh 10
 ```
 
 Output:
 
 ```text
 results/hihighpt_jets.root
+```
+
+Remote RECO files can be slow. For quick checks, start with a small number:
+
+```bash
+bash cms/run_hijet_analyzer.sh 1
+bash cms/run_hijet_analyzer.sh 3
+```
+
+After the ROOT output exists, leave the CMS container and plot from Windows
+PowerShell:
+
+```powershell
+.\.venv\Scripts\python.exe src\plot_hijet_aj.py
+```
+
+Plot output:
+
+```text
+results/hihighpt_aj_hist.png
 ```
 
 The first successful test read one remote HIHighPt event:
