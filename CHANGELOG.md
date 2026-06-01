@@ -15,3 +15,4 @@
 - Added CMS environment setup notes for WSL2, Docker Desktop, and CMSSW.
 - Recorded successful CMSSW container checks and the HIHighPt PbPb starting record.
 - Added HIHighPt event-content inspection config and collection notes.
+- Added a helper script for checking HIHighPt event content inside the CMS container.

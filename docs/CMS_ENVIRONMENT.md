@@ -205,6 +205,13 @@ To focus on jet-quenching-relevant products:
 edmDumpEventContent root://eospublic.cern.ch//eos/opendata/cms/hidata/HIRun2011/HIHighPt/RECO/15Apr2013-v1/10000/0056B4D7-E8A5-E211-935E-003048F316C4.root | grep -E 'Centrality|ak.*Jet|TriggerResults|hiEvtPlane'
 ```
 
+Or run the helper script from inside the CMS container:
+
+```bash
+cd /work
+bash cms/check_hihighpt_content.sh
+```
+
 Useful products seen in the first file include:
 
 ```text
