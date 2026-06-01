@@ -3,6 +3,10 @@
 from pathlib import Path
 
 import awkward as ak
+import matplotlib
+
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 import numpy as np
 import uproot
@@ -32,8 +36,7 @@ def main() -> None:
     ax.set_ylabel("Events")
     ax.set_title(f"HIHighPt dijet imbalance ({len(selected)} selected events)")
     ax.grid(alpha=0.25)
-    fig.tight_layout()
-    fig.savefig(OUTPUT_PATH, dpi=160)
+    fig.savefig(OUTPUT_PATH, dpi=160, bbox_inches="tight")
     plt.close(fig)
 
     print(f"Read entries: {tree.num_entries}")
