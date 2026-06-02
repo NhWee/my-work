@@ -307,6 +307,24 @@ Plot output:
 results/hihighpt_aj_hist.png
 ```
 
+For output files with `hf_tower_sum`, compare A_J in central-like and
+peripheral-like event groups:
+
+```powershell
+.\.venv\Scripts\python.exe src\plot_hijet_centrality_aj.py
+```
+
+This uses the upper and lower quartiles of `hf_tower_sum` as a first centrality
+proxy. It is useful for workflow checks, but a calibrated CMS centrality
+definition is needed for final physics interpretation.
+
+Comparison output:
+
+```text
+results/hihighpt_centrality_aj_compare.png
+results/hihighpt_centrality_aj_summary.txt
+```
+
 The first successful test read one remote HIHighPt event:
 
 ```text

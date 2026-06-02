@@ -20,3 +20,4 @@
 - Verified the mini analyzer on one remote HIHighPt event and recorded the first jet summary.
 - Added configurable HIHighPt event counts and an A_J plotting script.
 - Added centrality output support to the HIHighPt mini analyzer.
+- Added HF-activity centrality-proxy A_J comparison plotting.
