@@ -167,6 +167,12 @@ bash cms/install_hijet_analyzer.sh
 bash cms/run_pp2760_analyzer.sh 10 pp2760_jets.root
 ```
 
+To test a different pp input file, pass it as the third argument:
+
+```bash
+bash cms/run_pp2760_analyzer.sh 300 pp2760_test.root root://eospublic.cern.ch//path/to/file.root
+```
+
 Output:
 
 ```text
@@ -235,3 +241,9 @@ centrality calibration
 
 Bins with zero pp jets are left empty in the ratio. More pp statistics or a
 more jet-rich pp reference selection is needed before interpreting high-pT bins.
+
+Summarize jet counts in analyzer outputs:
+
+```powershell
+.\.venv\Scripts\python.exe src\summarize_jet_outputs.py results\pp2760_jets_2000.root
+```

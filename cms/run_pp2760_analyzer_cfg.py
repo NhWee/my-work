@@ -5,6 +5,10 @@ import FWCore.ParameterSet.Config as cms
 
 max_events = int(os.environ.get("MAX_EVENTS", "10"))
 output_file = os.environ.get("OUTPUT_FILE", "pp2760_jets.root")
+input_file = os.environ.get(
+    "INPUT_FILE",
+    "root://eospublic.cern.ch//eos/opendata/cms/Run2011A/AllPhysics2760/RECO/16Jul2011-v1/0000/00135ABC-6AB1-E011-B6C6-00E08178C0F7.root",
+)
 
 
 process = cms.Process("PPJET")
@@ -16,12 +20,12 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source(
     "PoolSource",
     fileNames=cms.untracked.vstring(
-        "root://eospublic.cern.ch//eos/opendata/cms/Run2011A/AllPhysics2760/RECO/16Jul2011-v1/0000/00135ABC-6AB1-E011-B6C6-00E08178C0F7.root",
+        input_file,
     ),
 )
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
-process.MessageLogger.cerr.FwkReport.reportEvery = 1
+process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 process.TFileService = cms.Service(
     "TFileService",

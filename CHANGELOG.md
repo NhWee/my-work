@@ -31,3 +31,4 @@
 - Added per-event PbPb vs pp jet pT spectrum comparison output.
 - Added central-like vs peripheral-like PbPb jet pT spectrum comparison.
 - Added first centrality-aware jet R_AA proxy calculation.
+- Added pp input-file override support and jet-output summary tooling.
