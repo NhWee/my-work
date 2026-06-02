@@ -18,6 +18,10 @@
 - Added a helper script for checking HIHighPt event content inside the CMS container.
 - Added the first CMSSW mini analyzer for HIHighPt jet summaries.
 - Verified the mini analyzer on one remote HIHighPt event and recorded the first jet summary.
+
+## 2026-06-02
+
+### Added
 - Added configurable HIHighPt event counts and an A_J plotting script.
 - Added centrality output support to the HIHighPt mini analyzer.
 - Added HF-activity centrality-proxy A_J comparison plotting.
