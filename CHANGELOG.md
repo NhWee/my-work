@@ -34,3 +34,4 @@
 - Added pp input-file override support and jet-output summary tooling.
 - Recorded the first pp 14016 jet-yield file scan.
 - Added configurable minimum jet pT and 1-50 GeV RAA proxy plotting.
+- Added integrated 1-30 GeV RAA proxy versus centrality-proxy plotting.
