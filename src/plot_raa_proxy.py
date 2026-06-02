@@ -1,5 +1,6 @@
 """Build a first jet R_AA proxy from PbPb and pp mini-analyzer outputs."""
 
+import argparse
 from pathlib import Path
 
 import awkward as ak
@@ -19,6 +20,32 @@ PP_PATH = Path("results/pp2760_jets_2000.root")
 SPECTRUM_OUTPUT = Path("results/raa_proxy_spectra_per_event.png")
 RATIO_OUTPUT = Path("results/raa_proxy_ratio.png")
 SUMMARY_OUTPUT = Path("results/raa_proxy_summary.csv")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Build a first jet R_AA proxy from PbPb and pp outputs."
+    )
+    parser.add_argument("--pbpb", type=Path, default=PBPB_PATH)
+    parser.add_argument("--pp", type=Path, default=PP_PATH)
+    parser.add_argument("--pt-low", type=float, default=30.0)
+    parser.add_argument("--pt-high", type=float, default=300.0)
+    parser.add_argument("--pt-bin-width", type=float, default=None)
+    parser.add_argument("--output-prefix", default="raa_proxy")
+    return parser.parse_args()
+
+
+def make_bins(args: argparse.Namespace) -> np.ndarray:
+    if args.pt_bin_width:
+        return np.arange(
+            args.pt_low,
+            args.pt_high + args.pt_bin_width,
+            args.pt_bin_width,
+            dtype=float,
+        )
+    if args.pt_low == 30.0 and args.pt_high == 300.0:
+        return np.array([30, 40, 50, 60, 80, 100, 140, 200, 300], dtype=float)
+    return np.linspace(args.pt_low, args.pt_high, 26)
 
 
 def load_tree_arrays(path: Path):
@@ -65,8 +92,9 @@ def decorate(ax, ylabel: str, title: str) -> None:
 
 
 def main() -> None:
-    pbpb, pbpb_events = load_tree_arrays(PBPB_PATH)
-    pp, pp_events = load_tree_arrays(PP_PATH)
+    args = parse_args()
+    pbpb, pbpb_events = load_tree_arrays(args.pbpb)
+    pp, pp_events = load_tree_arrays(args.pp)
 
     hf = pbpb["hf_tower_sum"]
     valid_hf = hf >= 0
@@ -88,7 +116,7 @@ def main() -> None:
         "pp": (flatten_jets(pp), pp_events),
     }
 
-    bins = np.array([30, 40, 50, 60, 80, 100, 140, 200, 300], dtype=float)
+    bins = make_bins(args)
     centers = 0.5 * (bins[:-1] + bins[1:])
     pp_yield = histogram_per_event(samples["pp"][0], bins, samples["pp"][1])
 
@@ -131,22 +159,29 @@ def main() -> None:
     decorate(ratio_ax, "R_AA proxy vs pp", "First jet R_AA proxy")
     ratio_ax.set_ylim(0.0, 12.0)
 
-    SPECTRUM_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    spectra_fig.savefig(SPECTRUM_OUTPUT, dpi=160, bbox_inches="tight")
-    ratio_fig.savefig(RATIO_OUTPUT, dpi=160, bbox_inches="tight")
+    spectrum_output = Path("results") / f"{args.output_prefix}_spectra_per_event.png"
+    ratio_output = Path("results") / f"{args.output_prefix}_ratio.png"
+    summary_output = Path("results") / f"{args.output_prefix}_summary.csv"
+
+    spectrum_output.parent.mkdir(parents=True, exist_ok=True)
+    spectra_fig.savefig(spectrum_output, dpi=160, bbox_inches="tight")
+    ratio_fig.savefig(ratio_output, dpi=160, bbox_inches="tight")
     plt.close(spectra_fig)
     plt.close(ratio_fig)
 
     summary = pd.DataFrame(rows)
-    summary.to_csv(SUMMARY_OUTPUT, index=False)
+    summary.to_csv(summary_output, index=False)
 
     print(f"PbPb events: {pbpb_events}")
     print(f"pp events: {pp_events}")
+    print(f"PbPb file: {args.pbpb}")
+    print(f"pp file: {args.pp}")
+    print(f"pT range: {args.pt_low} to {args.pt_high} GeV")
     print(f"Peripheral-like HF <= {peripheral_cut:.3f}")
     print(f"Central-like HF >= {central_cut:.3f}")
-    print(f"Saved plot: {SPECTRUM_OUTPUT}")
-    print(f"Saved plot: {RATIO_OUTPUT}")
-    print(f"Saved summary: {SUMMARY_OUTPUT}")
+    print(f"Saved plot: {spectrum_output}")
+    print(f"Saved plot: {ratio_output}")
+    print(f"Saved summary: {summary_output}")
 
 
 if __name__ == "__main__":

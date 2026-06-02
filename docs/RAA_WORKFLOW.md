@@ -173,6 +173,14 @@ To test a different pp input file, pass it as the third argument:
 bash cms/run_pp2760_analyzer.sh 300 pp2760_test.root root://eospublic.cern.ch//path/to/file.root
 ```
 
+To lower the analyzer jet threshold, pass `MIN_JET_PT` as the last argument.
+For example, create outputs for a 1-50 GeV study:
+
+```bash
+bash cms/run_hijet_analyzer.sh 100 hihighpt_jets_min1_100.root 1.0
+bash cms/run_pp2760_analyzer.sh 1000 pp2760_jets_min1_1000.root root://eospublic.cern.ch//eos/opendata/cms/Run2011A/AllPhysics2760/RECO/16Jul2011-v1/0000/00135ABC-6AB1-E011-B6C6-00E08178C0F7.root 1.0
+```
+
 Output:
 
 ```text
@@ -206,6 +214,20 @@ After producing inclusive jet outputs for PbPb and pp, run:
 
 ```powershell
 .\.venv\Scripts\python.exe src\plot_raa_proxy.py
+```
+
+For a 1 GeV binning over 1-50 GeV:
+
+```powershell
+.\.venv\Scripts\python.exe src\plot_raa_proxy.py --pbpb results\hihighpt_jets_min1_100.root --pp results\pp2760_jets_min1_1000.root --pt-low 1 --pt-high 50 --pt-bin-width 1 --output-prefix raa_proxy_pt1_50_min1
+```
+
+Outputs:
+
+```text
+results/raa_proxy_pt1_50_min1_spectra_per_event.png
+results/raa_proxy_pt1_50_min1_ratio.png
+results/raa_proxy_pt1_50_min1_summary.csv
 ```
 
 Current default inputs:

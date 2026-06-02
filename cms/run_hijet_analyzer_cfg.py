@@ -5,6 +5,7 @@ import FWCore.ParameterSet.Config as cms
 
 max_events = int(os.environ.get("MAX_EVENTS", "10"))
 output_file = os.environ.get("OUTPUT_FILE", "hihighpt_jets.root")
+min_jet_pt = float(os.environ.get("MIN_JET_PT", "30.0"))
 
 
 process = cms.Process("HIJET")
@@ -33,7 +34,7 @@ process.hiJets = cms.EDAnalyzer(
     jets=cms.InputTag("ak5PFJets", "", "ppRECO"),
     centrality=cms.InputTag("hiCentrality", "", "RECO"),
     maxAbsEta=cms.double(2.0),
-    minJetPt=cms.double(30.0),
+    minJetPt=cms.double(min_jet_pt),
 )
 
 process.path = cms.Path(process.hiJets)
