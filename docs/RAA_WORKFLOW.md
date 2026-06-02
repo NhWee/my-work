@@ -193,3 +193,45 @@ jet branch update, then pass both output files:
 ```powershell
 .\.venv\Scripts\python.exe src\plot_jet_pt_spectrum.py results\pbpb.root results\pp2760_jets.root
 ```
+
+## First RAA Proxy
+
+After producing inclusive jet outputs for PbPb and pp, run:
+
+```powershell
+.\.venv\Scripts\python.exe src\plot_raa_proxy.py
+```
+
+Current default inputs:
+
+```text
+PbPb: results/hihighpt_jets_inclusive_300.root
+pp:   results/pp2760_jets_2000.root
+```
+
+Outputs:
+
+```text
+results/raa_proxy_spectra_per_event.png
+results/raa_proxy_ratio.png
+results/raa_proxy_summary.csv
+```
+
+This is only a first proxy:
+
+```text
+R_AA_proxy = PbPb jets-per-event / pp jets-per-event
+```
+
+It does not yet include:
+
+```text
+T_AA or N_coll
+integrated luminosity
+trigger efficiency and prescales
+jet energy corrections
+centrality calibration
+```
+
+Bins with zero pp jets are left empty in the ratio. More pp statistics or a
+more jet-rich pp reference selection is needed before interpreting high-pT bins.
