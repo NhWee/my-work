@@ -237,15 +237,29 @@ To plot integrated `R_AA_proxy` versus centrality proxy for
 .\.venv\Scripts\python.exe src\plot_raa_vs_centrality.py
 ```
 
+For `1 < jet pT < 10 GeV`, run:
+
+```powershell
+.\.venv\Scripts\python.exe src\plot_raa_vs_centrality.py --pt-low 1 --pt-high 10 --output-prefix raa_proxy_vs_centrality_pt1_10
+```
+
 Outputs:
 
 ```text
 results/raa_proxy_vs_centrality_pt1_30.png
 results/raa_proxy_vs_centrality_pt1_30.csv
+results/raa_proxy_vs_centrality_pt1_10.png
+results/raa_proxy_vs_centrality_pt1_10.csv
 ```
 
-The x-axis uses HF activity quantile bins, ordered from peripheral-like to
-central-like. This is not yet calibrated CMS centrality.
+The x-axis uses conventional centrality-style labels:
+
+```text
+0-20%, 20-40%, 40-60%, 60-80%, 80-100%
+```
+
+Here `0-20%` means the highest HF activity quantile, so it is central-like.
+This is not yet calibrated CMS centrality.
 
 Current default inputs:
 

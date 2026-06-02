@@ -35,3 +35,4 @@
 - Recorded the first pp 14016 jet-yield file scan.
 - Added configurable minimum jet pT and 1-50 GeV RAA proxy plotting.
 - Added integrated 1-30 GeV RAA proxy versus centrality-proxy plotting.
+- Added conventional 0-100% centrality labels and 1-10 GeV RAA proxy plotting.
