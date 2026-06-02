@@ -57,6 +57,19 @@ def write_summary(df: pd.DataFrame, selected: pd.DataFrame) -> None:
                 f"mean A_J: {selected['aj'].mean():.3f}",
                 f"median A_J: {selected['aj'].median():.3f}",
                 f"events with A_J > 0.3: {int((selected['aj'] > 0.3).sum())}",
+            ]
+        )
+        if "centrality_raw" in selected:
+            lines.extend(
+                [
+                    f"mean centrality_raw: {selected['centrality_raw'].mean():.3f}",
+                    f"mean hf_tower_sum: {selected['hf_tower_sum'].mean():.3f}",
+                    f"min hf_tower_sum: {selected['hf_tower_sum'].min():.3f}",
+                    f"max hf_tower_sum: {selected['hf_tower_sum'].max():.3f}",
+                ]
+            )
+        lines.extend(
+            [
                 "",
                 "Top 10 events by A_J",
                 selected.sort_values("aj", ascending=False)
@@ -73,8 +86,11 @@ def main() -> None:
     require_input()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    columns = ["run", "lumi", "event", "nJet", "lead_pt", "sublead_pt", "dphi", "aj"]
     tree = uproot.open(INPUT_PATH)[TREE_PATH]
+    columns = ["run", "lumi", "event", "nJet", "lead_pt", "sublead_pt", "dphi", "aj"]
+    columns.extend(
+        column for column in ["centrality_raw", "hf_tower_sum"] if column in tree.keys()
+    )
     df = tree.arrays(columns, library="pd")
     selected = df[df["aj"] >= 0.0].copy()
 
@@ -115,6 +131,14 @@ def main() -> None:
             title=f"Dijet imbalance ({len(selected)} dijet events)",
             output_name="hihighpt_aj_hist.png",
         )
+        if "hf_tower_sum" in selected:
+            save_hist(
+                selected["hf_tower_sum"],
+                bins=40,
+                xlabel="HF tower ET sum",
+                title=f"HF activity proxy ({len(selected)} dijet events)",
+                output_name="hihighpt_hf_tower_sum_hist.png",
+            )
 
     write_summary(df, selected)
     print(f"Read entries: {len(df)}")

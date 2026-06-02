@@ -4,6 +4,7 @@ import FWCore.ParameterSet.Config as cms
 
 
 max_events = int(os.environ.get("MAX_EVENTS", "10"))
+output_file = os.environ.get("OUTPUT_FILE", "hihighpt_jets.root")
 
 
 process = cms.Process("HIJET")
@@ -24,12 +25,13 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 process.TFileService = cms.Service(
     "TFileService",
-    fileName=cms.string("hihighpt_jets.root"),
+    fileName=cms.string(output_file),
 )
 
 process.hiJets = cms.EDAnalyzer(
     "HiJetAnalyzer",
     jets=cms.InputTag("ak5PFJets", "", "ppRECO"),
+    centrality=cms.InputTag("hiCentrality", "", "RECO"),
     maxAbsEta=cms.double(2.0),
     minJetPt=cms.double(30.0),
 )

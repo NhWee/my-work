@@ -5,6 +5,7 @@
   <use name="FWCore/ServiceRegistry"/>
   <use name="CommonTools/UtilAlgos"/>
   <use name="DataFormats/Common"/>
+  <use name="DataFormats/HeavyIonEvent"/>
   <use name="DataFormats/JetReco"/>
   <use name="root"/>
   <flags EDM_PLUGIN="1"/>

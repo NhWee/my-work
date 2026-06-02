@@ -5,6 +5,7 @@
 
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "DataFormats/Common/interface/View.h"
+#include "DataFormats/HeavyIonEvent/interface/Centrality.h"
 #include "DataFormats/JetReco/interface/Jet.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -21,6 +22,7 @@ private:
   virtual void analyze(const edm::Event& event, const edm::EventSetup& setup);
 
   edm::InputTag jets_;
+  edm::InputTag centrality_;
   double maxAbsEta_;
   double minJetPt_;
 
@@ -28,6 +30,8 @@ private:
   unsigned int run_;
   unsigned int lumi_;
   unsigned long long event_;
+  float centralityRaw_;
+  float hfTowerSum_;
   int nJet_;
   float leadPt_;
   float leadEta_;
@@ -41,12 +45,15 @@ private:
 
 HiJetAnalyzer::HiJetAnalyzer(const edm::ParameterSet& config)
     : jets_(config.getParameter<edm::InputTag>("jets")),
+      centrality_(config.getParameter<edm::InputTag>("centrality")),
       maxAbsEta_(config.getParameter<double>("maxAbsEta")),
       minJetPt_(config.getParameter<double>("minJetPt")),
       tree_(0),
       run_(0),
       lumi_(0),
       event_(0),
+      centralityRaw_(-1.0),
+      hfTowerSum_(-1.0),
       nJet_(0),
       leadPt_(-1.0),
       leadEta_(0.0),
@@ -61,6 +68,8 @@ HiJetAnalyzer::HiJetAnalyzer(const edm::ParameterSet& config)
   tree_->Branch("run", &run_, "run/i");
   tree_->Branch("lumi", &lumi_, "lumi/i");
   tree_->Branch("event", &event_, "event/l");
+  tree_->Branch("centrality_raw", &centralityRaw_, "centrality_raw/F");
+  tree_->Branch("hf_tower_sum", &hfTowerSum_, "hf_tower_sum/F");
   tree_->Branch("nJet", &nJet_, "nJet/I");
   tree_->Branch("lead_pt", &leadPt_, "lead_pt/F");
   tree_->Branch("lead_eta", &leadEta_, "lead_eta/F");
@@ -76,6 +85,8 @@ void HiJetAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&) {
   run_ = event.id().run();
   lumi_ = event.luminosityBlock();
   event_ = event.id().event();
+  centralityRaw_ = -1.0;
+  hfTowerSum_ = -1.0;
   nJet_ = 0;
   leadPt_ = -1.0;
   leadEta_ = 0.0;
@@ -85,6 +96,13 @@ void HiJetAnalyzer::analyze(const edm::Event& event, const edm::EventSetup&) {
   subleadPhi_ = 0.0;
   dphi_ = -1.0;
   aj_ = -1.0;
+
+  edm::Handle<reco::Centrality> centrality;
+  event.getByLabel(centrality_, centrality);
+  if (centrality.isValid()) {
+    centralityRaw_ = centrality->raw();
+    hfTowerSum_ = centrality->EtHFtowerSum();
+  }
 
   edm::Handle<edm::View<reco::Jet> > jets;
   event.getByLabel(jets_, jets);

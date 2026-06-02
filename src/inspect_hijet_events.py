@@ -22,12 +22,17 @@ def main() -> None:
         "run",
         "lumi",
         "event",
+    ]
+    optional_columns = [
+        "centrality_raw",
+        "hf_tower_sum",
         "nJet",
         "lead_pt",
         "sublead_pt",
         "dphi",
         "aj",
     ]
+    columns.extend(column for column in optional_columns if column in tree.keys())
     df = tree.arrays(columns, library="pd")
 
     print(f"File: {INPUT_PATH}")

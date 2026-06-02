@@ -19,3 +19,4 @@
 - Added the first CMSSW mini analyzer for HIHighPt jet summaries.
 - Verified the mini analyzer on one remote HIHighPt event and recorded the first jet summary.
 - Added configurable HIHighPt event counts and an A_J plotting script.
+- Added centrality output support to the HIHighPt mini analyzer.

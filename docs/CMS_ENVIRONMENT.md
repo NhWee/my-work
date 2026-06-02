@@ -267,10 +267,24 @@ cd /work
 bash cms/run_hijet_analyzer.sh 10
 ```
 
+The optional second argument changes the output ROOT file name:
+
+```bash
+bash cms/run_hijet_analyzer.sh 10 hihighpt_jets_with_centrality.root
+```
+
 Output:
 
 ```text
 results/hihighpt_jets.root
+```
+
+New analyzer output includes centrality activity branches after rebuilding the
+analyzer:
+
+```text
+centrality_raw
+hf_tower_sum
 ```
 
 Remote RECO files can be slow. For quick checks, start with a small number:
