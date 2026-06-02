@@ -25,3 +25,4 @@
 - Added configurable HIHighPt event counts and an A_J plotting script.
 - Added centrality output support to the HIHighPt mini analyzer.
 - Added HF-activity centrality-proxy A_J comparison plotting.
+- Added a centrality-dependent RAA workflow note.
