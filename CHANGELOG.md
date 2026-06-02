@@ -28,3 +28,4 @@
 - Added a centrality-dependent RAA workflow note.
 - Added pp 2.76 TeV analyzer configuration for RAA reference studies.
 - Added inclusive selected-jet pT branches and a jet pT spectrum plotting script.
+- Added per-event PbPb vs pp jet pT spectrum comparison output.
