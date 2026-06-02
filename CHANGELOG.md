@@ -32,3 +32,4 @@
 - Added central-like vs peripheral-like PbPb jet pT spectrum comparison.
 - Added first centrality-aware jet R_AA proxy calculation.
 - Added pp input-file override support and jet-output summary tooling.
+- Recorded the first pp 14016 jet-yield file scan.

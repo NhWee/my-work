@@ -247,3 +247,33 @@ Summarize jet counts in analyzer outputs:
 ```powershell
 .\.venv\Scripts\python.exe src\summarize_jet_outputs.py results\pp2760_jets_2000.root
 ```
+
+## pp File Scan Notes
+
+Initial 14016 pp file scan using 300 events per candidate:
+
+```text
+file label   selected jets   jets pT > 50   jets pT > 100   max pT
+try2         13              0              0               45.055
+try3         17              4              0               67.323
+try4         20              10             0               95.998
+try5         7               1              0               97.254
+try6         6               2              0               56.744
+try7         10              2              0               50.978
+```
+
+Current best short-scan candidate for moderate-pT jets:
+
+```text
+try4
+root://eospublic.cern.ch//eos/opendata/cms/Run2011A/AllPhysics2760/RECO/16Jul2011-v1/0000/28C3A8C2-65B1-E011-A15F-00304867402A.root
+```
+
+The original first pp file remains useful for longer statistics:
+
+```text
+2000 events
+137 selected jets
+29 jets with pT > 50 GeV
+1 jet with pT > 100 GeV
+```
