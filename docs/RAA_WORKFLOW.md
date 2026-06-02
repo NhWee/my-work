@@ -138,3 +138,58 @@ The pp reference must use validated luminosity sections. CERN provides the
 The next code step is to add a pp input configuration and run the same mini
 analyzer on the 2.76 TeV pp reference data. After that, build matched PbPb and
 pp jet-pT histograms.
+
+## Current pp Reference Test
+
+A first accessible pp reference file was found in record 14016:
+
+```text
+root://eospublic.cern.ch//eos/opendata/cms/Run2011A/AllPhysics2760/RECO/16Jul2011-v1/0000/00135ABC-6AB1-E011-B6C6-00E08178C0F7.root
+```
+
+Its event content includes:
+
+```text
+vector<reco::PFJet> "ak5PFJets" "" "RECO"
+```
+
+The pp analyzer configuration is:
+
+```text
+cms/run_pp2760_analyzer_cfg.py
+```
+
+Run a small pp test inside the CMS container:
+
+```bash
+cd /work
+bash cms/install_hijet_analyzer.sh
+bash cms/run_pp2760_analyzer.sh 10 pp2760_jets.root
+```
+
+Output:
+
+```text
+results/pp2760_jets.root
+```
+
+The mini analyzer now stores inclusive selected-jet arrays:
+
+```text
+jet_pt
+jet_eta
+jet_phi
+```
+
+Plot a selected-jet pT spectrum from any output file that contains `jet_pt`:
+
+```powershell
+.\.venv\Scripts\python.exe src\plot_jet_pt_spectrum.py results\pp2760_jets.root
+```
+
+To compare PbPb and pp, first re-run the PbPb analyzer after this inclusive
+jet branch update, then pass both output files:
+
+```powershell
+.\.venv\Scripts\python.exe src\plot_jet_pt_spectrum.py results\pbpb.root results\pp2760_jets.root
+```
