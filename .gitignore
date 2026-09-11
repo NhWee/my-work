@@ -11,6 +11,9 @@ data/*
 results/*
 !results/.gitkeep
 
+# figures/ is tracked on purpose: the README embeds it.
+# Copy representative plots from results/ and state sample size + cuts in the caption.
+
 CMSSW_*/
 
 .env
