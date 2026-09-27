@@ -10,6 +10,7 @@ echo "Checking pp 2.76 TeV event content:"
 echo "${FILE_URL}"
 echo
 
+# Match jets by type, not label, so iterative-cone collections show up too.
 edmDumpEventContent "${FILE_URL}" \
-  | grep -E 'ak.*Jet|TriggerResults|Centrality' \
+  | grep -E 'vector<reco::[A-Za-z]*Jet>|TriggerResults|Centrality' \
   | head -80

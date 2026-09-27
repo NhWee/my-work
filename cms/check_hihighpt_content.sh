@@ -14,6 +14,7 @@ echo "${INPUT_FILE}"
 echo
 
 echo "Jet-quenching-relevant event products:"
+# Match jets by type, not label: 'ak.*Jet' hid iterativeConePu5CaloJets.
 edmDumpEventContent "${INPUT_FILE}" \
-  | grep -E 'Centrality|ak.*Jet|TriggerResults|hiEvtPlane' \
+  | grep -E 'Centrality|vector<reco::[A-Za-z]*Jet>|TriggerResults|hiEvtPlane' \
   | head -120

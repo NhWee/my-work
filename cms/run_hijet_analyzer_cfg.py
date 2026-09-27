@@ -6,6 +6,9 @@ import FWCore.ParameterSet.Config as cms
 max_events = int(os.environ.get("MAX_EVENTS", "10"))
 output_file = os.environ.get("OUTPUT_FILE", "hihighpt_jets.root")
 min_jet_pt = float(os.environ.get("MIN_JET_PT", "30.0"))
+# Jet collection as "label:instance:process",
+# e.g. JETS=iterativeConePu5CaloJets::RECO for the UE-subtracted HI jets.
+jets_tag = (os.environ.get("JETS", "ak5PFJets::ppRECO").split(":") + ["", ""])[:3]
 
 
 process = cms.Process("HIJET")
@@ -31,7 +34,7 @@ process.TFileService = cms.Service(
 
 process.hiJets = cms.EDAnalyzer(
     "HiJetAnalyzer",
-    jets=cms.InputTag("ak5PFJets", "", "ppRECO"),
+    jets=cms.InputTag(*jets_tag),
     centrality=cms.InputTag("hiCentrality", "", "RECO"),
     maxAbsEta=cms.double(2.0),
     minJetPt=cms.double(min_jet_pt),

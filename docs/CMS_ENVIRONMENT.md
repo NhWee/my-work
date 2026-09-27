@@ -202,7 +202,7 @@ edmDumpEventContent root://eospublic.cern.ch//eos/opendata/cms/hidata/HIRun2011/
 To focus on jet-quenching-relevant products:
 
 ```bash
-edmDumpEventContent root://eospublic.cern.ch//eos/opendata/cms/hidata/HIRun2011/HIHighPt/RECO/15Apr2013-v1/10000/0056B4D7-E8A5-E211-935E-003048F316C4.root | grep -E 'Centrality|ak.*Jet|TriggerResults|hiEvtPlane'
+edmDumpEventContent root://eospublic.cern.ch//eos/opendata/cms/hidata/HIRun2011/HIHighPt/RECO/15Apr2013-v1/10000/0056B4D7-E8A5-E211-935E-003048F316C4.root | grep -E 'Centrality|vector<reco::[A-Za-z]*Jet>|TriggerResults|hiEvtPlane'
 ```
 
 Or run the helper script from inside the CMS container:

@@ -6,6 +6,9 @@ import FWCore.ParameterSet.Config as cms
 max_events = int(os.environ.get("MAX_EVENTS", "10"))
 output_file = os.environ.get("OUTPUT_FILE", "pp2760_jets.root")
 min_jet_pt = float(os.environ.get("MIN_JET_PT", "30.0"))
+# Jet collection as "label:instance:process"; must match the Pb-Pb algorithm,
+# e.g. JETS=iterativeCone5CaloJets::RECO against iterativeConePu5CaloJets.
+jets_tag = (os.environ.get("JETS", "ak5PFJets::RECO").split(":") + ["", ""])[:3]
 input_file = os.environ.get(
     "INPUT_FILE",
     "root://eospublic.cern.ch//eos/opendata/cms/Run2011A/AllPhysics2760/RECO/16Jul2011-v1/0000/00135ABC-6AB1-E011-B6C6-00E08178C0F7.root",
@@ -35,7 +38,7 @@ process.TFileService = cms.Service(
 
 process.hiJets = cms.EDAnalyzer(
     "HiJetAnalyzer",
-    jets=cms.InputTag("ak5PFJets", "", "RECO"),
+    jets=cms.InputTag(*jets_tag),
     centrality=cms.InputTag("hiCentrality", "", "RECO"),
     maxAbsEta=cms.double(2.0),
     minJetPt=cms.double(min_jet_pt),

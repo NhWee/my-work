@@ -240,7 +240,7 @@ writes one row per event.
 
 | Parameter | Pb-Pb | pp |
 |---|---|---|
-| `jets` | `ak5PFJets::ppRECO` | `ak5PFJets::RECO` |
+| `jets` | `ak5PFJets::ppRECO`, override with `JETS` | `ak5PFJets::RECO`, same |
 | `centrality` | `hiCentrality::RECO` | `hiCentrality::RECO` |
 | `maxAbsEta` | 2.0 | 2.0 |
 | `minJetPt` | `MIN_JET_PT`, default 30 GeV | same |
@@ -248,11 +248,25 @@ writes one row per event.
 `ak5` is anti-$k_T$ with $R = 0.5$, particle-flow inputs. The event-content
 excerpt recorded in `docs/CMS_ENVIRONMENT.md` shows only pp-style jet
 collections (`ak5CaloJets`, `ak5PFJets`, `ak7*`, all from the `ppRECO`
-process). That excerpt is partial ("useful products ... include"), so
-**whether the file also carries heavy-ion background-subtracted collections
-(`akPu*`, `icPu*`) has not been checked**. Running `edmDumpEventContent` on the
-input file answers it; if one is there, switching the `jets` InputTag closes
-most of the subtraction gap in Caveats.
+process). That excerpt came through a `grep 'ak.*Jet'` filter, which hides
+any jet collection whose label lacks "ak".
+
+The CMSSW configuration that produced this RECO file (`CMSSW_4_4_5_patch1`;
+the same files in 4_4_7) says what to expect. The default heavy-ion
+reconstruction runs one jet producer,
+[`iterativeConePu5CaloJets`](https://github.com/cms-sw/cmssw/blob/CMSSW_4_4_5_patch1/RecoHI/HiJetAlgos/python/HiRecoJets_cff.py):
+iterative cone, $R = 0.5$, calorimeter towers, event-by-event UE subtraction
+(`MultipleAlgoIterator`). The heavy-ion RECO output
+[keeps `*_*CaloJets_*_*`](https://github.com/cms-sw/cmssw/blob/CMSSW_4_4_5_patch1/RecoHI/HiJetAlgos/python/RecoHiJets_EventContent_cff.py).
+The `akPu*` producers exist only in an optional extended sequence, which fits
+their absence from the `ak.*Jet` output. **So the file most likely carries
+`iterativeConePu5CaloJets::RECO`, but this has not been confirmed on the
+file.** `cms/check_hihighpt_content.sh` now lists jet collections by type, so
+it shows iterative-cone jets too. If the collection is there,
+`JETS=iterativeConePu5CaloJets::RECO` switches the analyzer to it without
+editing the config; the analyzer reads `edm::View<reco::Jet>`, so calo jets
+work. The pp side then needs the same algorithm: standard pp RECO keeps
+`iterativeCone5CaloJets`.
 
 Output tree `hiJets/jets`, one entry per event:
 
@@ -377,11 +391,15 @@ Ordered by how much they affect a number you might quote.
 
 ## Next steps
 
-1. **Subtract the underlying event.** First run `edmDumpEventContent` on the
-   input to see whether it already carries `akPu*`/`icPu*` collections, and
-   switch the InputTag if so; otherwise implement a constituent-level or
-   area-based subtraction on `ak5PFJets`. Nothing downstream is quantitative
-   until this is done.
+1. **Subtract the underlying event.** Run `cms/check_hihighpt_content.sh` and
+   `cms/check_pp2760_content.sh` to confirm `iterativeConePu5CaloJets` in the
+   Pb-Pb file and find the matching iterative-cone collection on the pp side,
+   then rerun both analyzers with `JETS` set. These are raw calorimeter jets,
+   which under-measure $p_T$, so the dijet thresholds need jet energy
+   corrections (step 5) before they mean what they do in the CMS analysis. If
+   the collection is not there, implement a constituent-level or area-based
+   subtraction on `ak5PFJets`. Nothing downstream is quantitative until this is
+   done.
 2. **Apply the dijet selection** to $A_J$: the three cuts in section 0.3. Cheap
    to do, and the branches are already there.
 3. Fix a reproducible sample list and matched Pb-Pb / pp selections; document
