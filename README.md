@@ -170,11 +170,13 @@ amounts of energy. The surviving imbalance is
 $$A_J = \frac{p_{T,1} - p_{T,2}}{p_{T,1} + p_{T,2}}$$
 
 with $p_{T,1}$ the leading and $p_{T,2}$ the subleading jet. $A_J$ shifts to
-larger values in central Pb-Pb relative to pp -- the observation that made the
-2011 CMS and ATLAS dijet-asymmetry papers.
+larger values in central Pb-Pb relative to pp -- the observation behind the
+first dijet-asymmetry results from ATLAS
+([Phys. Rev. Lett. 105 (2010) 252303](https://doi.org/10.1103/PhysRevLett.105.252303))
+and CMS ([Phys. Rev. C 84 (2011) 024906](https://doi.org/10.1103/PhysRevC.84.024906)).
 
-$A_J$ is only interpretable for a genuine back-to-back **dijet**. The standard
-selection requires all three of:
+$A_J$ is only interpretable for a genuine back-to-back **dijet**. The CMS
+analysis requires all three of:
 
 $$p_{T,1} > 120\ \mathrm{GeV}, \qquad p_{T,2} > 50\ \mathrm{GeV}, \qquad \Delta\phi_{12} > \frac{2\pi}{3}$$
 
@@ -243,12 +245,14 @@ writes one row per event.
 | `maxAbsEta` | 2.0 | 2.0 |
 | `minJetPt` | `MIN_JET_PT`, default 30 GeV | same |
 
-`ak5` is anti-$k_T$ with $R = 0.5$, particle-flow inputs. The recorded event
-content of the HIHighPt file lists only pp-style collections
-(`ak5CaloJets`, `ak5PFJets`, `ak7*`, all from the `ppRECO` process) -- there
-are no `akPu*` or `akVs*` background-subtracted collections in it. That is the
-origin of the subtraction gap in Caveats: it is a property of the input, not a
-wrong choice of tag.
+`ak5` is anti-$k_T$ with $R = 0.5$, particle-flow inputs. The event-content
+excerpt recorded in `docs/CMS_ENVIRONMENT.md` shows only pp-style jet
+collections (`ak5CaloJets`, `ak5PFJets`, `ak7*`, all from the `ppRECO`
+process). That excerpt is partial ("useful products ... include"), so
+**whether the file also carries heavy-ion background-subtracted collections
+(`akPu*`, `icPu*`) has not been checked**. Running `edmDumpEventContent` on the
+input file answers it; if one is there, switching the `jets` InputTag closes
+most of the subtraction gap in Caveats.
 
 Output tree `hiJets/jets`, one entry per event:
 
@@ -345,7 +349,7 @@ figures/                                 committed plots for this README
 
 Ordered by how much they affect a number you might quote.
 
-- **Pb-Pb jets are not background-subtracted.** The available collections are
+- **Pb-Pb jets are not background-subtracted.** The analyzer reads the
   pp-style `ak5PFJets`; the underlying event inside an $R = 0.5$ cone in
   central Pb-Pb is of order $200$ GeV (section 0.5), against a default jet
   threshold of 30 GeV. Every Pb-Pb jet $p_T$ in this repository is therefore
@@ -354,7 +358,7 @@ Ordered by how much they affect a number you might quote.
   centrality-dependent ratio cannot be read as energy loss, and low-$p_T$ bins
   are essentially background.
 - **No dijet selection.** $A_J$ is filled for any event with two selected
-  jets. The standard $p_{T,1} > 120$, $p_{T,2} > 50$ GeV,
+  jets. The CMS $p_{T,1} > 120$, $p_{T,2} > 50$ GeV,
   $\Delta\phi_{12} > 2\pi/3$ requirements (section 0.3) are not applied, even
   though `dphi`, `lead_pt` and `sublead_pt` are read into the plotting
   scripts. The current $A_J$ distribution therefore mixes real dijets with
@@ -373,10 +377,11 @@ Ordered by how much they affect a number you might quote.
 
 ## Next steps
 
-1. **Subtract the underlying event** -- either by locating a dataset that
-   provides `akPu*`/`akVs*` collections, or by implementing a
-   constituent-level or area-based subtraction on `ak5PFJets`. Nothing
-   downstream is quantitative until this is done.
+1. **Subtract the underlying event.** First run `edmDumpEventContent` on the
+   input to see whether it already carries `akPu*`/`icPu*` collections, and
+   switch the InputTag if so; otherwise implement a constituent-level or
+   area-based subtraction on `ak5PFJets`. Nothing downstream is quantitative
+   until this is done.
 2. **Apply the dijet selection** to $A_J$: the three cuts in section 0.3. Cheap
    to do, and the branches are already there.
 3. Fix a reproducible sample list and matched Pb-Pb / pp selections; document
